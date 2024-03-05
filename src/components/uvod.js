@@ -2,7 +2,7 @@
 export default function Uvod(){
     return(
         <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.png")'}}>
-            <nav className="font-extralight flex items-center justify-between w-full mb-auto">
+            <nav className="font-extralight flex items-center justify-between w-11/12 mb-auto">
                 <a href="#" className="text-4xl m-3">Kostnice v Sedlci</a>
                 <div className="text-xl flex gap-28">
                     <div className="flex gap-2">

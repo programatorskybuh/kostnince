@@ -63,7 +63,7 @@ function Pruvodci(){
                 <div className="w-[540px]">
                     <img src="img/nikca.png" alt="Nikca"/>
                     <h4 className="text-2xl m-2">Nikča</h4>
-                    <p className="font-light text-lg"   >Nikča, naše tajemná průvodkyně v kostnici, je postava zahalena do temných šatů a s krátkými, vlnitými vlasy, které jí padají do tváře. S podmanivým pohledem, který proniká do nejtemnějších koutů, odhaluje tajemství minulosti.</p>
+                    <p className="font-light text-lg">Nikča, naše tajemná průvodkyně v kostnici, je postava zahalena do temných šatů a s krátkými, vlnitými vlasy, které jí padají do tváře. S podmanivým pohledem, který proniká do nejtemnějších koutů, odhaluje tajemství minulosti.</p>
                 </div>
             </div>
         </section>

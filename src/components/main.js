@@ -1,3 +1,6 @@
+import React from "react";
+import { Button } from "@nextui-org/react";
+import { Link } from "react-router-dom";
 
 export default function Main(){
     return(
@@ -21,7 +24,7 @@ function Uvod(){
                         <a className="m-3" href="#">O nás</a>
                         <a className="m-3" href="#">Kontakt</a>
                     </div>
-                    <a className="m-3 text-sm" href="#">Přihlásit se</a>
+                    <Link to={"/auth"}><a className="m-3 text-sm" href="#">Přihlásit se</a></Link>
                 </div>
             </nav>
             <div className="flex items-center flex-col gap-10 mb-auto">
@@ -56,7 +59,7 @@ function Info(){
                 <p className="font-light">299 Kč, Senior/Dítě</p>
             </div>
             <div>
-                <button className="bg-bila text-fialova">Zarezervujte si prohlídku!</button>
+                <Button className="bg-bila text-fialova hover:-translate-y-1">Zarezervujte si prohlídku!</Button>
             </div>
         </section>
     );

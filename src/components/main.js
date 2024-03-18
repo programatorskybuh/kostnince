@@ -59,7 +59,7 @@ function Info(){
                 <p className="font-light">299 Kč, Senior/Dítě</p>
             </div>
             <div>
-                <Button className="bg-bila text-fialova hover:-translate-y-1">Zarezervujte si prohlídku!</Button>
+                <Link to={"/rezervace"}><Button className="bg-bila text-fialova hover:-translate-y-1">Zarezervujte si prohlídku!</Button></Link>
             </div>
         </section>
     );

@@ -25,48 +25,64 @@ export default function Reservation(){
 }
 
 function BezUctu({dates}){
-    const [selected, setSelected] = useState();
+    const [selectedDate, setSelectedDate] = useState();
     const [timePick, setTimePick] = useState();
+    const [step, setStep] = useState(0);
 
-    console.log(selected);
+    console.log(selectedDate);
     return(
         <div className="m-16 h-full flex flex-col justify-evenly items-center gap-5">
             <h4 className="text-bila">Zarezervujte si prohlídku</h4>
-            <Select label="Datum prohlídky" onSelectionChange={setSelected} >
+            {step == 0 ? 
+            <>
+                <Select label="Datum prohlídky" onSelectionChange={setSelectedDate} >
                 {dates.map((date) => (
                     <SelectItem key={date} value={date}>
                         {date}
                     </SelectItem>
                 ))}
-            </Select>
-            {selected && (
-                <ButtonGroup>
-                    <Button className={timePick == 1 ? "text-bila" : ""} onClick={() => setTimePick(1)} variant={timePick == 1 ? "bordered" : "solid"}>9:00</Button>
-                    <Button className={timePick == 2 ? "text-bila" : ""} onClick={() => setTimePick(2)} variant={timePick == 2 ? "bordered" : "solid"}>11:00</Button>
-                    <Button className={timePick == 3 ? "text-bila" : ""} onClick={() => setTimePick(3)} variant={timePick == 3 ? "bordered" : "solid"}>13:30</Button>
-                    <Button className={timePick == 4 ? "text-bila" : ""} onClick={() => setTimePick(4)} variant={timePick == 4 ? "bordered" : "solid"}>15:00</Button>
-                </ButtonGroup>
-            )}
-            {timePick && (
-                <div className="flex w-full gap-4">
-                    <Select label="Dospělý" defaultSelectedKeys={["1"]}>
-                        <SelectItem key={"0"} value={"0"}>0</SelectItem>
-                        <SelectItem key={"1"} value={"1"}>1</SelectItem>
-                        <SelectItem key={"2"} value={"2"}>2</SelectItem>
-                        <SelectItem key={"3"} value={"3"}>3</SelectItem>
-                        <SelectItem key={"4"} value={"4"}>4</SelectItem>
-                        <SelectItem key={"5"} value={"5"}>5</SelectItem>
-                    </Select>
-                    <Select label="Dítě/Senior" defaultSelectedKeys={["0"]}>
-                        <SelectItem  key={"0"} value={"0"}>0</SelectItem>
-                        <SelectItem  key={"1"} value={"1"}>1</SelectItem>
-                        <SelectItem  key={"2"} value={"2"}>2</SelectItem>
-                        <SelectItem  key={"3"} value={"3"}>3</SelectItem>
-                        <SelectItem  key={"4"} value={"4"}>4</SelectItem>
-                        <SelectItem  key={"5"} value={"5"}>5</SelectItem>
-                    </Select>
-                </div>
-            )}
+                </Select>
+                {selectedDate && (
+                    <ButtonGroup>
+                        <Button className={timePick == 1 ? "text-bila" : ""} onClick={() => setTimePick(1)} variant={timePick == 1 ? "bordered" : "solid"}>9:00</Button>
+                        <Button className={timePick == 2 ? "text-bila" : ""} onClick={() => setTimePick(2)} variant={timePick == 2 ? "bordered" : "solid"}>11:00</Button>
+                        <Button className={timePick == 3 ? "text-bila" : ""} onClick={() => setTimePick(3)} variant={timePick == 3 ? "bordered" : "solid"}>13:30</Button>
+                        <Button className={timePick == 4 ? "text-bila" : ""} onClick={() => setTimePick(4)} variant={timePick == 4 ? "bordered" : "solid"}>15:00</Button>
+                    </ButtonGroup>
+                )}
+                {timePick && (
+                    <>
+                        <div className="flex w-full gap-4">
+                        <Select label="Dospělý" defaultSelectedKeys={["1"]}>
+                            <SelectItem key={"0"} value={"0"}>0</SelectItem>
+                            <SelectItem key={"1"} value={"1"}>1</SelectItem>
+                            <SelectItem key={"2"} value={"2"}>2</SelectItem>
+                            <SelectItem key={"3"} value={"3"}>3</SelectItem>
+                            <SelectItem key={"4"} value={"4"}>4</SelectItem>
+                            <SelectItem key={"5"} value={"5"}>5</SelectItem>
+                        </Select>
+                        <Select label="Dítě/Senior" defaultSelectedKeys={["0"]}>
+                            <SelectItem  key={"0"} value={"0"}>0</SelectItem>
+                            <SelectItem  key={"1"} value={"1"}>1</SelectItem>
+                            <SelectItem  key={"2"} value={"2"}>2</SelectItem>
+                            <SelectItem  key={"3"} value={"3"}>3</SelectItem>
+                            <SelectItem  key={"4"} value={"4"}>4</SelectItem>
+                            <SelectItem  key={"5"} value={"5"}>5</SelectItem>
+                        </Select>
+                        </div>
+                        <Button className="bg-bila text-fialova" onClick={() => setStep(1)}>Pokračovat</Button>
+                    </>
+                )}
+            </> : ""}
+            {step == 1 ? 
+            <>  
+                <p>Váš zarezervovaný termín: {selectedDate}</p>
+                <Button className="bg-bila text-fialova" onClick={() => setStep(2)}>Zarezervovat</Button>
+            </> : ""}
+            {step == 2 ? 
+            <>  
+                <p>Děkujeme, Vaše rezervace na termín {selectedDate} byla úspěšně odeslána.</p>
+            </> : ""}
             <p>Pro jednodušší rezervaci se přihlašte <RouterLink to={"/auth"}><Link underline="always" className="text-bila cursor-pointer">zde</Link></RouterLink></p>
         </div>
     );

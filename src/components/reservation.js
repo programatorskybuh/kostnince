@@ -27,6 +27,8 @@ export default function Reservation(){
 function BezUctu({dates}){
     const [selectedDate, setSelectedDate] = useState();
     const [timePick, setTimePick] = useState();
+    const [peopleAdult, setPeopleAdult] = useState("1");
+    const [peopleHalf, setPeopleHalf] = useState("0");
     const [step, setStep] = useState(0);
 
     console.log(selectedDate);
@@ -35,7 +37,7 @@ function BezUctu({dates}){
             <h4 className="text-bila">Zarezervujte si prohlídku</h4>
             {step == 0 ? 
             <>
-                <Select label="Datum prohlídky" onSelectionChange={setSelectedDate} >
+                <Select label="Datum prohlídky" selectedKeys={[selectedDate]} onChange={(e) => setSelectedDate(e.target.value)} >
                 {dates.map((date) => (
                     <SelectItem key={date} value={date}>
                         {date}
@@ -53,7 +55,7 @@ function BezUctu({dates}){
                 {timePick && (
                     <>
                         <div className="flex w-full gap-4">
-                        <Select label="Dospělý" defaultSelectedKeys={["1"]}>
+                        <Select label="Dospělý" selectedKeys={[peopleAdult]} onChange={(e) => setPeopleAdult(e.target.value)}>
                             <SelectItem key={"0"} value={"0"}>0</SelectItem>
                             <SelectItem key={"1"} value={"1"}>1</SelectItem>
                             <SelectItem key={"2"} value={"2"}>2</SelectItem>
@@ -61,7 +63,7 @@ function BezUctu({dates}){
                             <SelectItem key={"4"} value={"4"}>4</SelectItem>
                             <SelectItem key={"5"} value={"5"}>5</SelectItem>
                         </Select>
-                        <Select label="Dítě/Senior" defaultSelectedKeys={["0"]}>
+                        <Select label="Dítě/Senior" selectedKeys={[peopleHalf]} onChange={(e) => setPeopleHalf(e.target.value)}>
                             <SelectItem  key={"0"} value={"0"}>0</SelectItem>
                             <SelectItem  key={"1"} value={"1"}>1</SelectItem>
                             <SelectItem  key={"2"} value={"2"}>2</SelectItem>
@@ -76,7 +78,10 @@ function BezUctu({dates}){
             </> : ""}
             {step == 1 ? 
             <>  
-                <p>Váš zarezervovaný termín: {selectedDate}</p>
+                <div className="flex justify-center items-center gap-2">
+                    <p>Váš zarezervovaný termín: {selectedDate}</p>
+                    <img onClick={() => setStep(0)} className="cursor-pointer" src="img/pencil.png" alt="Upravit" />
+                </div>
                 <Button className="bg-bila text-fialova" onClick={() => setStep(2)}>Zarezervovat</Button>
             </> : ""}
             {step == 2 ? 

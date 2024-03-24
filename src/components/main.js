@@ -1,11 +1,22 @@
-import React from "react";
-import { Button } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 
 export default function Main(){
+    const [user, setUser] = useState({
+        id: "",
+        name: "Tomáš Jelínek"
+    });
+
+    useEffect(() =>{
+        if(localStorage.getItem("id")){
+            setUser({...user, id: localStorage.getItem("id")})
+        } 
+    }, [])
+
     return(
         <section className="w-full bg-fialova text-bila">
-            <Uvod />
+            <Uvod user={user} />
             <Onas />
             <Info />
             <Pruvodci />
@@ -14,17 +25,36 @@ export default function Main(){
         </section>
     );
 }
-function Uvod(){
+function Uvod({user}){
     return(
         <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.png")'}}>
             <nav className="font-extralight flex items-center justify-between w-11/12 mb-auto">
                 <a href="#" className="md:text-4xl text-lg m-3">Kostnice v Sedlci</a>
-                <div className="text-xl flex gap-28">
+                <div className="text-xl flex gap-28 justify-center items-center">
                     <div className="md:flex gap-2 hidden">
                         <a className="m-3" href="#">O nás</a>
                         <a className="m-3" href="#">Kontakt</a>
                     </div>
-                    <Link to={"/auth"}><a className="m-3 text-sm" href="#">Přihlásit se</a></Link>
+                    {user.id !== "" ? 
+                    <>
+                        <Dropdown>
+                            <DropdownTrigger>
+                                <Button>
+                                    {user.name}
+                                </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu>
+                                <DropdownSection title={"Rezervace"} showDivider>
+                                    <DropdownItem description={"28.3.2024"}>Rezervace 1</DropdownItem>   
+                                    <DropdownItem description={"30.3.2024"}>Rezervace 2</DropdownItem>   
+                                </DropdownSection>                                                           
+                                <DropdownItem>Odhlásit se</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </> : 
+                    <>
+                        <Link to={"/auth"} className="flex justify-center items-center"><a className="m-3 text-sm flex justify-center items-center" href="#">Přihlásit se</a></Link>
+                    </>}
                 </div>
             </nav>
             <div className="flex items-center flex-col gap-10 mb-auto">

@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Link, Select, SelectItem } from "@nextui-org/react";
+import { Button, ButtonGroup, Link, Select, SelectItem, Input } from "@nextui-org/react";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
@@ -35,7 +35,7 @@ function BezUctu({dates}){
     return(
         <div className="m-16 h-full flex flex-col justify-evenly items-center gap-5">
             <h4 className="text-bila">Zarezervujte si prohlídku</h4>
-            {step == 0 ? 
+            {step === 0 ? 
             <>
                 <Select label="Datum prohlídky" selectedKeys={[selectedDate]} onChange={(e) => setSelectedDate(e.target.value)} >
                 {dates.map((date) => (
@@ -46,10 +46,10 @@ function BezUctu({dates}){
                 </Select>
                 {selectedDate && (
                     <ButtonGroup>
-                        <Button className={timePick == 1 ? "text-bila" : ""} onClick={() => setTimePick(1)} variant={timePick == 1 ? "bordered" : "solid"}>9:00</Button>
-                        <Button className={timePick == 2 ? "text-bila" : ""} onClick={() => setTimePick(2)} variant={timePick == 2 ? "bordered" : "solid"}>11:00</Button>
-                        <Button className={timePick == 3 ? "text-bila" : ""} onClick={() => setTimePick(3)} variant={timePick == 3 ? "bordered" : "solid"}>13:30</Button>
-                        <Button className={timePick == 4 ? "text-bila" : ""} onClick={() => setTimePick(4)} variant={timePick == 4 ? "bordered" : "solid"}>15:00</Button>
+                        <Button className={timePick === 1 ? "text-bila" : ""} onClick={() => setTimePick(1)} variant={timePick === 1 ? "bordered" : "solid"}>9:00</Button>
+                        <Button className={timePick === 2 ? "text-bila" : ""} onClick={() => setTimePick(2)} variant={timePick === 2 ? "bordered" : "solid"}>11:00</Button>
+                        <Button className={timePick === 3 ? "text-bila" : ""} onClick={() => setTimePick(3)} variant={timePick === 3 ? "bordered" : "solid"}>13:30</Button>
+                        <Button className={timePick === 4 ? "text-bila" : ""} onClick={() => setTimePick(4)} variant={timePick === 4 ? "bordered" : "solid"}>15:00</Button>
                     </ButtonGroup>
                 )}
                 {timePick && (
@@ -76,15 +76,22 @@ function BezUctu({dates}){
                     </>
                 )}
             </> : ""}
-            {step == 1 ? 
+            {step === 1 ? 
             <>  
                 <div className="flex justify-center items-center gap-2">
                     <p>Váš zarezervovaný termín: {selectedDate}</p>
+                    
                     <img onClick={() => setStep(0)} className="cursor-pointer" src="img/pencil.png" alt="Upravit" />
                 </div>
+                <div className="flex gap-5">
+                    <Input type="text" label="Jméno" />
+                    <Input type="text" label="Příjmení" />
+                </div>
+                <Input type="text" label="Email" />
+                <Input type="text" label="Telefonní číslo" />
                 <Button className="bg-bila text-fialova" onClick={() => setStep(2)}>Zarezervovat</Button>
             </> : ""}
-            {step == 2 ? 
+            {step === 2 ? 
             <>  
                 <p>Děkujeme, Vaše rezervace na termín {selectedDate} byla úspěšně odeslána.</p>
             </> : ""}

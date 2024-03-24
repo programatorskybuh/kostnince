@@ -3,6 +3,8 @@ import Auth from "./components/login";
 import Main from "./components/main";
 import { NextUIProvider } from "@nextui-org/react";
 import Reservation from "./components/reservation";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -16,6 +18,7 @@ function App() {
             </Routes>
           </Router>
         </div>
+        <ToastContainer />
       </NextUIProvider>
   );
 }

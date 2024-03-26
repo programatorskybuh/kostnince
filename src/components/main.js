@@ -15,7 +15,7 @@ export default function Main(){
     }, [])
 
     return(
-        <section className="w-full bg-fialova text-bila">
+        <section className="w-full flex flex-col justify-center items-center bg-fialova text-bila">
             <Uvod user={user} />
             <Onas />
             <Info />
@@ -27,7 +27,7 @@ export default function Main(){
 }
 function Uvod({user}){
     return(
-        <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.png")'}}>
+        <section className="h-screen flex w-full flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.png")'}}>
             <nav className="font-extralight flex items-center justify-between w-11/12 mb-auto">
                 <a href="#" className="md:text-4xl text-lg m-3">Kostnice v Sedlci</a>
                 <div className="text-xl flex gap-28 justify-center items-center">
@@ -57,7 +57,7 @@ function Uvod({user}){
                     </>}
                 </div>
             </nav>
-            <div className="flex items-center flex-col gap-10 mb-auto">
+            <div className="flex items-center w-10/12 flex-col gap-10 mb-auto">
                 <h1 className="md:text-6xl text-4xl font-bold drop-shadow-2xl">Rezervační systém Kostnice v Sedlci</h1>
                 <h4 className="text-lg">Zarezervujte si neopakovatelné okamžiky v pohodlí domova.</h4>
             </div>
@@ -99,7 +99,7 @@ function Pruvodci(){
     return(
         <section className="flex flex-col gap-9 p-16 justify-center items-center w-3/4 m-auto text-xl text-center">
             <h2 className="font-medium text-5xl">Kdo vás bude provádět?</h2>
-            <div className="flex flex-col md:flex-row gap-5">
+            <div className="flex flex-col items-center md:flex-row gap-5">
                 <div className="md:w-[540px] w-2/3">
                     <img src="img/honza.png" alt="Honza" />
                     <h4 className="text-2xl m-2">Honza</h4>
@@ -126,14 +126,14 @@ function Pruvodci(){
 
 function Kontakt(){
     return(
-        <section className="flex flex-col justify-center items-center text-center">
+        <section className="flex flex-col justify-center w-3/4 md:w-full items-center text-center">
             <h2 className="font-medium text-5xl m-4">Kontakt</h2>
             <div className="font-light text-xl flex flex-col md:flex-row gap-5 justify-center m-4">
                 <p className="flex items-center gap-2"><img src="img/phone.png"/>+420 327 561 147</p>
                 <p className="flex items-center gap-2"><img src="img/email.png"/>info@sedlec.info</p>
                 <p className="flex items-center gap-2"><img src="img/mapa.png"/>Zámecká 279, Kutná Hora</p>
             </div>
-            <iframe className="w-full" height="450" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2566.723390010863!2d15.286433576914842!3d49.960291122534684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470c40fc635ac54f%3A0x320cc9caa5f1508e!2sKostnice%20Sedlec!5e0!3m2!1scs!2scz!4v1709640910708!5m2!1scs!2scz" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe className="w-10/12 md:w-full" height="450" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2566.723390010863!2d15.286433576914842!3d49.960291122534684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470c40fc635ac54f%3A0x320cc9caa5f1508e!2sKostnice%20Sedlec!5e0!3m2!1scs!2scz!4v1709640910708!5m2!1scs!2scz" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </section>
     );
 }

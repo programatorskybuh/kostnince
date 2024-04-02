@@ -1,13 +1,30 @@
 import { Button, ButtonGroup, Link, Select, SelectItem, Input } from "@nextui-org/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function Reservation(){
+    const [user, setUser] = useState({
+        id: "",
+        name: "Tomáš Jelínek"
+    });
+
+    useEffect(() =>{
+        if(localStorage.getItem("id")){
+            setUser({...user, id: localStorage.getItem("id")})
+        } 
+    }, [])
+
     let dates = GenerateDates();
     return(
         <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.png")'}}>
             <div className="flex flex-col justify-start items-center bg-fialova opacity-80 min-w-60 min-h-80 rounded-3xl">
-                <BezUctu dates={dates}/>
+                {user.id !== "" ? 
+                <>
+                    <SUctem />
+                </> : 
+                <>
+                    <BezUctu dates={dates}/>
+                </>}          
             </div>
         </section>
     );
@@ -24,12 +41,26 @@ export default function Reservation(){
     }
 }
 
+function SUctem({dates}){
+
+}
+
 function BezUctu({dates}){
     const [selectedDate, setSelectedDate] = useState();
     const [timePick, setTimePick] = useState();
     const [peopleAdult, setPeopleAdult] = useState("1");
     const [peopleHalf, setPeopleHalf] = useState("0");
+    const [personalInfo, setPersonalInfo] = useState({
+        name: "",
+        surname: "",
+        email: "",
+        phone: ""
+    });
     const [step, setStep] = useState(0);
+
+    const handleChange = (e) => {
+        setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
+    };
 
     console.log(selectedDate);
     return(
@@ -84,11 +115,11 @@ function BezUctu({dates}){
                     <img onClick={() => setStep(0)} className="cursor-pointer" src="img/pencil.png" alt="Upravit" />
                 </div>
                 <div className="flex gap-5">
-                    <Input type="text" label="Jméno" />
-                    <Input type="text" label="Příjmení" />
+                    <Input type="text" name="name" label="Jméno" value={personalInfo.name} onChange={handleChange} />
+                    <Input type="text" name="surname" label="Příjmení" value={personalInfo.surname} onChange={handleChange} />
                 </div>
-                <Input type="text" label="Email" />
-                <Input type="text" label="Telefonní číslo" />
+                <Input type="text" name="email" label="Email" value={personalInfo.email} onChange={handleChange} />
+                <Input type="text" name="phone" label="Telefonní číslo" value={personalInfo.phone} onChange={handleChange} />
                 <Button className="bg-bila text-fialova" onClick={() => setStep(2)}>Zarezervovat</Button>
             </> : ""}
             {step === 2 ? 

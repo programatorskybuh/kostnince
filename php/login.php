@@ -9,7 +9,7 @@
 
     // Check if the data contains the required fields
     if (!isset($data['email'], $data['password'])) {
-        echo "Missing email or password";
+        echo json_encode(["error" => "Missing email or password"]);
         exit();
     }
 
@@ -26,14 +26,14 @@
         $row = $result->fetch_assoc();
         if ($row['password'] === $password) {
             // Password matches, login successful
-            echo "Login successful";
+            echo json_encode(["success" => "Login successful", "ID_user" => $row['ID_user']]);
         } else {
             // Password does not match
-            echo "Invalid password";
+            echo json_encode(["error" => "Invalid password"]);
         }
     } else {
         // Email does not exist in the database
-        echo "Email not found";
+        echo json_encode(["error" => "Email not found"]);
     }
 
     // Close database connection

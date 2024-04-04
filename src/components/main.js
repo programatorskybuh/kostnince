@@ -1,18 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from "@nextui-org/react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Main(){
     const [user, setUser] = useState({
         id: "",
-        name: "Tomáš Jelínek"
+        name: "",
+        reservations: []
+
     });
 
     useEffect(() =>{
         if(localStorage.getItem("id")){
-            setUser({...user, id: localStorage.getItem("id")})
+
+            fetchData(localStorage.getItem("id"));
         } 
     }, [])
+
+    useEffect(() =>{
+        console.log(user);
+    }, [user])
+
+    const fetchData = async (id) => {
+        try{
+            const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/getData.php', {ID_user: id});
+            console.log(response.data, user);
+            setUser({...user, name: response.data.name, id: localStorage.getItem("id")})
+        }  
+        catch{
+
+        }
+    }
 
     return(
         <section className="w-full flex flex-col justify-center items-center bg-fialova text-bila">
@@ -26,6 +45,11 @@ export default function Main(){
     );
 }
 function Uvod({user}){
+    function Logout(){
+        localStorage.clear();
+        window.location.reload();
+    }
+
     return(
         <section className="h-screen flex w-full flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.png")'}}>
             <nav className="font-extralight flex items-center justify-between w-11/12 mb-auto">
@@ -37,23 +61,28 @@ function Uvod({user}){
                     </div>
                     {user.id !== "" ? 
                     <>
-                        <Dropdown>
+                        <Dropdown aria-label="Menu">
                             <DropdownTrigger>
                                 <Button>
-                                    {user.name}
+                                    {user.name ? user.name : "Loading..."}
                                 </Button>
                             </DropdownTrigger>
-                            <DropdownMenu>
-                                <DropdownSection title={"Rezervace"} showDivider>
-                                    <DropdownItem description={"28.3.2024"}>Rezervace 1</DropdownItem>   
-                                    <DropdownItem description={"30.3.2024"}>Rezervace 2</DropdownItem>   
+                            <DropdownMenu aria-label="User Actions">
+                                <DropdownSection title={"Rezervace"} showDivider>     
+                                    {
+                                        user.reservations.map((reservation, index) => (
+                                            <DropdownItem key={index} description={reservation.date}>
+                                                {`Rezervace ${index + 1}`}
+                                            </DropdownItem>
+                                        ))
+                                    }                                     
                                 </DropdownSection>                                                           
-                                <DropdownItem>Odhlásit se</DropdownItem>
+                                <DropdownItem onClick={Logout}>Odhlásit se</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </> : 
                     <>
-                        <Link to={"/auth"} className="flex justify-center items-center"><a className="m-3 text-sm flex justify-center items-center" href="#">Přihlásit se</a></Link>
+                        <Link to={"/auth"} className="flex justify-center items-center"><p className="m-3 text-sm flex justify-center items-center">Přihlásit se</p></Link>
                     </>}
                 </div>
             </nav>
@@ -133,7 +162,7 @@ function Kontakt(){
                 <p className="flex items-center gap-2"><img src="img/email.png"/>info@sedlec.info</p>
                 <p className="flex items-center gap-2"><img src="img/mapa.png"/>Zámecká 279, Kutná Hora</p>
             </div>
-            <iframe className="w-10/12 md:w-full" height="450" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2566.723390010863!2d15.286433576914842!3d49.960291122534684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470c40fc635ac54f%3A0x320cc9caa5f1508e!2sKostnice%20Sedlec!5e0!3m2!1scs!2scz!4v1709640910708!5m2!1scs!2scz" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe className="w-10/12 md:w-full" height="450" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2566.723390010863!2d15.286433576914842!3d49.960291122534684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470c40fc635ac54f%3A0x320cc9caa5f1508e!2sKostnice%20Sedlec!5e0!3m2!1scs!2scz!4v1709640910708!5m2!1scs!2scz" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
         </section>
     );
 }

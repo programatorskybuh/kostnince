@@ -39,15 +39,15 @@ function Login({setPage}){
       const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/login.php', formData);
       console.log(response.data); // Success message from the server 
 
-      if(response.data === "Email not found"){
+      if(response.data.error === "Email not found"){
         toast.warning("Email nebyl nalezen.");
       }
-      else if(response.data === "Invalid password"){
+      else if(response.data.error === "Invalid password"){
         toast.warning("Špatné heslo.");
       }
-      else if(response.data === "Login successful"){
+      else if(response.data.success === "Login successful"){
         toast.success("Přihlášení proběhlo v pořádku.");
-        localStorage.setItem("id", "5");       
+        localStorage.setItem("id", response.data.ID_user);       
         window.location = "/";
       }
       

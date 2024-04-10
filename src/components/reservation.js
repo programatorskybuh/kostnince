@@ -1,6 +1,9 @@
 import { Button, ButtonGroup, Link, Select, SelectItem, Input } from "@nextui-org/react";
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 export default function Reservation(){
     const [user, setUser] = useState({
@@ -8,11 +11,23 @@ export default function Reservation(){
         name: "Tomáš Jelínek"
     });
 
+    const [reservations, setReservations] = useState({});
+
     useEffect(() =>{
         if(localStorage.getItem("id")){
             setUser({...user, id: localStorage.getItem("id")})
         } 
+        fetchData();
     }, [])
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('http://jelinek.soskolin.eu/maturita/php/getReservations.php');
+            setReservations(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
 
     let dates = GenerateDates();
     return(
@@ -23,7 +38,7 @@ export default function Reservation(){
                     <SUctem dates={dates} />
                 </> : 
                 <>
-                    <BezUctu dates={dates}/>
+                    <BezUctu dates={dates} reservations={reservations}/>
                 </>}          
             </div>
         </section>
@@ -101,8 +116,8 @@ function SUctem({dates}){
     );
 }
 
-function BezUctu({dates}){
-    const [selectedDate, setSelectedDate] = useState();
+function BezUctu({dates, reservations}){
+    const [selectedDate, setSelectedDate] = useState("");
     const [timePick, setTimePick] = useState();
     const [peopleAdult, setPeopleAdult] = useState("1");
     const [peopleHalf, setPeopleHalf] = useState("0");
@@ -113,12 +128,42 @@ function BezUctu({dates}){
         phone: ""
     });
     const [step, setStep] = useState(0);
+    const [usedDates, setUsedDates] = useState();
+
+    useEffect(() =>{
+        try{
+            console.log(reservations.find(({ date }) => date === selectedDate));
+        }
+        catch{
+            console.log("nic nic", reservations)
+        }
+    }, [selectedDate])
 
     const handleChange = (e) => {
         setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
     };
 
-    console.log(selectedDate);
+    const isValidEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
+
+    async function handleSend(){
+        if(isValidEmail(personalInfo.email) === true){
+            setStep(2);
+            let data = {
+                date: selectedDate,
+                time: timePick,
+                email: personalInfo.email,
+                ID_user: null
+            }
+            const response = await axios.post("http://jelinek.soskolin.eu/maturita/php/createReservation.php", data)
+            console.log(response.data);
+        }
+        else toast.warning("Vyplňte všechny podstatné informace ve správném tvaru.")
+
+    }
+
     return(
         <div className="m-16 h-full flex flex-col justify-evenly items-center gap-5">
             <h4 className="text-bila">Zarezervujte si prohlídku</h4>
@@ -174,9 +219,9 @@ function BezUctu({dates}){
                     <Input type="text" name="name" label="Jméno" value={personalInfo.name} onChange={handleChange} />
                     <Input type="text" name="surname" label="Příjmení" value={personalInfo.surname} onChange={handleChange} />
                 </div>
-                <Input type="text" name="email" label="Email" value={personalInfo.email} onChange={handleChange} />
+                <Input type="text" name="email" label="Email*" value={personalInfo.email} onChange={handleChange} />
                 <Input type="text" name="phone" label="Telefonní číslo" value={personalInfo.phone} onChange={handleChange} />
-                <Button className="bg-bila text-fialova" onClick={() => setStep(2)}>Zarezervovat</Button>
+                <Button className="bg-bila text-fialova" onClick={handleSend}>Zarezervovat</Button>
             </> : ""}
             {step === 2 ? 
             <>  

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from "@nextui-org/react";
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -40,6 +40,7 @@ export default function Main(){
 
     return(
         <section className="w-full flex flex-col justify-center items-center bg-fialova text-bila">
+            <Cookies />
             <Uvod user={user} />
             <Onas />
             <Info />
@@ -49,6 +50,23 @@ export default function Main(){
         </section>
     );
 }
+
+function Cookies(){
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    useEffect(() =>{
+        onOpen();
+    }, [])
+    return(
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} defaultOpen>
+            <ModalContent>
+                <ModalHeader>
+                    <h3>Ahoj</h3>
+                </ModalHeader>
+            </ModalContent>
+        </Modal>    
+    );
+}
+
 function Uvod({user}){
     function Logout(){
         localStorage.clear();

@@ -29,8 +29,11 @@
         exit();
     }
 
+    // Hash the password using password_hash() function
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
     // Execute SQL query to insert data into the database
-    $sql = "INSERT INTO users (email, password, name, surname) VALUES ('$email', '$password', '$name', '$surname')";
+    $sql = "INSERT INTO users (email, password, name, surname) VALUES ('$email', '$hashedPassword', '$name', '$surname')";
 
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";

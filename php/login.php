@@ -1,5 +1,5 @@
 <?php
-    include "connection.php"; // Include your database connection script
+    include "connection.php";
 
     // Read the raw POST data from the input stream
     $postData = file_get_contents('php://input');
@@ -17,14 +17,17 @@
     $email = $data['email'];
     $password = $data['password'];
 
-    // Prepare and execute a SELECT query to check if the email exists and the password matches
+    // Prepare and execute a SELECT query to check if the email exists
     $sql = "SELECT * FROM users WHERE email = '$email'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        // Email exists in the database, check if the password matches
+        // Email exists in the database, retrieve user data
         $row = $result->fetch_assoc();
-        if ($row['password'] === $password) {
+        $hashedPassword = $row['password'];
+
+        // Verify the password using password_verify() function
+        if (password_verify($password, $hashedPassword)) {
             // Password matches, login successful
             echo json_encode(["success" => "Login successful", "ID_user" => $row['ID_user']]);
         } else {

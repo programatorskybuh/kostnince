@@ -115,7 +115,7 @@ function SUctem({dates, reservations, userInfo}){
     }
 
     return(
-        <div className="m-16 h-full w-11/12 md:w-full flex flex-col justify-evenly items-center gap-5">
+        <div className="m-16 h-full w-11/12 md:w-auto flex flex-col justify-evenly items-center gap-5">
             <h4 className="text-bila">Zarezervujte si prohlídku</h4>
             {step === 0 ? 
             <>

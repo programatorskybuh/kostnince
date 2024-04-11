@@ -73,7 +73,7 @@ function Uvod({user}){
                                 </Button>
                             </DropdownTrigger>
                             <DropdownMenu aria-label="User Actions">
-                                <DropdownSection title={"Rezervace"} showDivider>     
+                                <DropdownSection title={user.reservations.length === 0 ? "Nemáte žádné rezervace" : "Rezervace"} showDivider>     
                                     {
                                         user.reservations.map((reservation, index) => (
                                             <DropdownItem key={index} description={reservation.date}>
@@ -143,7 +143,7 @@ function Pruvodci(){
                     dává kostnici nový rozměr – místo, kde minulost ožívá ve stínu 
                     mrtvých.</p>
                 </div>
-                <div className="md:w-1/2] w-full">
+                <div className="md:w-1/2 w-full">
                     <img src="img/bigboss.png" alt="BigBoss" />
                     <h4 className="text-2xl m-2">Big Boss</h4>
                     <p className="font-light text-lg">Radka, naše odvážná průvodkyně kostnicí, vystupuje s jasným úsměvem uprostřed morbidní atmosféry. S krátkými vlasy a pestrobarevným šátkem kolem krku, působí jako světýlko ve tmě. S každým krokem odhaluje příběhy minulosti s nakažlivým nadšením.</p>

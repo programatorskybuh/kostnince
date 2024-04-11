@@ -20,16 +20,21 @@ export default function Main(){
 
     useEffect(() =>{
         console.log(user);
+        if(user.id === "") return;
+
+        localStorage.setItem("id", user.id);
+        localStorage.setItem("name", user.name);
+        localStorage.setItem("email", user.email);
     }, [user])
 
     const fetchData = async (id) => {
         try{
             const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/getData.php', {ID_user: id});
             console.log(response.data, user);
-            setUser({...user, name: response.data.name, id: localStorage.getItem("id")})
+            setUser({...user, name: response.data.name, id: localStorage.getItem("id"), email: response.data.email, reservations: response.data.reservations})
         }  
         catch{
-
+            console.error("database error");
         }
     }
 

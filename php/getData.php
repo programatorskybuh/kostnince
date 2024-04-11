@@ -18,15 +18,17 @@
 
     // Initialize a variable to store user's name and surname
     $userInfo = "";
-
+    $email = "";
+    
     // Prepare and execute a SELECT query to find the user with the specified ID_user
-    $userQuery = "SELECT name, surname FROM users WHERE ID_user = $ID_user";
+    $userQuery = "SELECT name, surname, email FROM users WHERE ID_user = $ID_user";
     $userResult = $conn->query($userQuery);
-
+    
     if ($userResult->num_rows > 0) {
-        // User found, retrieve name and surname
+        // User found, retrieve name, surname, and email
         $userRow = $userResult->fetch_assoc();
         $userInfo = $userRow['name'] . " " . $userRow['surname'];
+        $email = $userRow['email'];
     } else {
         // User not found
         echo json_encode(["error" => "User not found"]);
@@ -53,6 +55,7 @@
     // Prepare the response data
     $responseData = [
         "name" => $userInfo,
+        "email" => $email,
         "reservations" => $reservations
     ];
 

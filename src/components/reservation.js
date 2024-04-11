@@ -8,14 +8,15 @@ import { toast } from "react-toastify";
 export default function Reservation(){
     const [user, setUser] = useState({
         id: "",
-        name: "Tomáš Jelínek"
+        name: "",
+        email: ""
     });
 
     const [reservations, setReservations] = useState({});
 
     useEffect(() =>{
         if(localStorage.getItem("id")){
-            setUser({...user, id: localStorage.getItem("id")})
+            setUser({...user, id: localStorage.getItem("id"), name: localStorage.getItem("name"), email: localStorage.getItem("email")})
         } 
         fetchData();
     }, [])
@@ -32,10 +33,10 @@ export default function Reservation(){
     let dates = GenerateDates();
     return(
         <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.png")'}}>
-            <div className="flex flex-col justify-start items-center bg-fialova opacity-80 min-w-60 min-h-80 rounded-3xl">
+            <div className="flex flex-col justify-start items-center bg-fialova opacity-80 min-w-96 min-h-80 rounded-3xl">
                 {user.id !== "" ? 
                 <>
-                    <SUctem dates={dates} />
+                    <SUctem dates={dates} reservations={reservations} userInfo={user} />
                 </> : 
                 <>
                     <BezUctu dates={dates} reservations={reservations}/>
@@ -56,14 +57,63 @@ export default function Reservation(){
     }
 }
 
-function SUctem({dates}){
-    const [selectedDate, setSelectedDate] = useState();
+function SUctem({dates, reservations, userInfo}){
+    const [selectedDate, setSelectedDate] = useState("");
     const [timePick, setTimePick] = useState();
     const [peopleAdult, setPeopleAdult] = useState("1");
     const [peopleHalf, setPeopleHalf] = useState("0");
     const [step, setStep] = useState(0);
+    const [personalInfo, setPersonalInfo] = useState(userInfo);
+    const [usedDates, setUsedDates] = useState([
+        false,
+        false,
+        false,
+        false
+    ]);
 
-    console.log(selectedDate);
+    console.log(personalInfo)
+    useEffect(() =>{
+        try{
+            //console.log(reservations.filter(item => item.date === selectedDate));
+            setTimePick();
+            let object = [
+                false,
+                false,
+                false,
+                false
+            ];
+            reservations.filter(item => item.date === selectedDate).forEach(element => {
+                object[element.time - 1] = true;
+            });
+            setUsedDates(object);
+        }
+        catch{
+            //console.log("nic nic", reservations)
+        }
+    }, [selectedDate])
+
+
+    const isValidEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
+
+    async function handleSend(){
+        if(isValidEmail(personalInfo.email) === true){
+            setStep(1);
+            let data = {
+                date: selectedDate,
+                time: timePick,
+                email: personalInfo.email,
+                ID_user: personalInfo.id
+            }
+            const response = await axios.post("http://jelinek.soskolin.eu/maturita/php/createReservation.php", data)
+            console.log(response.data);
+        }
+        else toast.warning("Vyplňte všechny podstatné informace ve správném tvaru.")
+
+    }
+
     return(
         <div className="m-16 h-full flex flex-col justify-evenly items-center gap-5">
             <h4 className="text-bila">Zarezervujte si prohlídku</h4>
@@ -78,10 +128,10 @@ function SUctem({dates}){
                 </Select>
                 {selectedDate && (
                     <ButtonGroup>
-                        <Button className={timePick === 1 ? "text-bila" : ""} onClick={() => setTimePick(1)} variant={timePick === 1 ? "bordered" : "solid"}>9:00</Button>
-                        <Button className={timePick === 2 ? "text-bila" : ""} onClick={() => setTimePick(2)} variant={timePick === 2 ? "bordered" : "solid"}>11:00</Button>
-                        <Button className={timePick === 3 ? "text-bila" : ""} onClick={() => setTimePick(3)} variant={timePick === 3 ? "bordered" : "solid"}>13:30</Button>
-                        <Button className={timePick === 4 ? "text-bila" : ""} onClick={() => setTimePick(4)} variant={timePick === 4 ? "bordered" : "solid"}>15:00</Button>
+                        <Button isDisabled={usedDates[0] === true ? true : false} className={timePick === 1 ? "text-bila" : ""} onClick={() => setTimePick(1)} variant={timePick === 1 ? "bordered" : "solid"}>9:00</Button>
+                        <Button isDisabled={usedDates[1] === true ? true : false} className={timePick === 2 ? "text-bila" : ""} onClick={() => setTimePick(2)} variant={timePick === 2 ? "bordered" : "solid"}>11:00</Button>
+                        <Button isDisabled={usedDates[2] === true ? true : false} className={timePick === 3 ? "text-bila" : ""} onClick={() => setTimePick(3)} variant={timePick === 3 ? "bordered" : "solid"}>13:30</Button>
+                        <Button isDisabled={usedDates[3] === true ? true : false} className={timePick === 4 ? "text-bila" : ""} onClick={() => setTimePick(4)} variant={timePick === 4 ? "bordered" : "solid"}>15:00</Button>
                     </ButtonGroup>
                 )}
                 {timePick && (
@@ -104,7 +154,7 @@ function SUctem({dates}){
                             <SelectItem  key={"5"} value={"5"}>5</SelectItem>
                         </Select>
                         </div>
-                        <Button className="bg-bila text-fialova" onClick={() => setStep(1)}>Rezervovat</Button>
+                        <Button className="bg-bila text-fialova" onClick={handleSend}>Rezervovat</Button>
                     </>
                 )}
             </> : ""}
@@ -112,6 +162,7 @@ function SUctem({dates}){
             <>  
                 <p>Děkujeme, Vaše rezervace na termín {selectedDate} byla úspěšně odeslána.</p>
             </> : ""}
+            <p>Jste přihlášený pod jménem: <strong>{personalInfo.name}</strong></p>
         </div>
     );
 }
@@ -128,14 +179,30 @@ function BezUctu({dates, reservations}){
         phone: ""
     });
     const [step, setStep] = useState(0);
-    const [usedDates, setUsedDates] = useState();
+    const [usedDates, setUsedDates] = useState([
+        false,
+        false,
+        false,
+        false
+    ]);
 
     useEffect(() =>{
         try{
-            console.log(reservations.find(({ date }) => date === selectedDate));
+            //console.log(reservations.filter(item => item.date === selectedDate));
+            setTimePick();
+            let object = [
+                false,
+                false,
+                false,
+                false
+            ];
+            reservations.filter(item => item.date === selectedDate).forEach(element => {
+                object[element.time - 1] = true;
+            });
+            setUsedDates(object);
         }
         catch{
-            console.log("nic nic", reservations)
+            //console.log("nic nic", reservations)
         }
     }, [selectedDate])
 
@@ -178,10 +245,10 @@ function BezUctu({dates, reservations}){
                 </Select>
                 {selectedDate && (
                     <ButtonGroup>
-                        <Button className={timePick === 1 ? "text-bila" : ""} onClick={() => setTimePick(1)} variant={timePick === 1 ? "bordered" : "solid"}>9:00</Button>
-                        <Button className={timePick === 2 ? "text-bila" : ""} onClick={() => setTimePick(2)} variant={timePick === 2 ? "bordered" : "solid"}>11:00</Button>
-                        <Button className={timePick === 3 ? "text-bila" : ""} onClick={() => setTimePick(3)} variant={timePick === 3 ? "bordered" : "solid"}>13:30</Button>
-                        <Button className={timePick === 4 ? "text-bila" : ""} onClick={() => setTimePick(4)} variant={timePick === 4 ? "bordered" : "solid"}>15:00</Button>
+                        <Button isDisabled={usedDates[0] === true ? true : false} className={timePick === 1 ? "text-bila" : ""} onClick={() => setTimePick(1)} variant={timePick === 1 ? "bordered" : "solid"}>9:00</Button>
+                        <Button isDisabled={usedDates[1] === true ? true : false} className={timePick === 2 ? "text-bila" : ""} onClick={() => setTimePick(2)} variant={timePick === 2 ? "bordered" : "solid"}>11:00</Button>
+                        <Button isDisabled={usedDates[2] === true ? true : false} className={timePick === 3 ? "text-bila" : ""} onClick={() => setTimePick(3)} variant={timePick === 3 ? "bordered" : "solid"}>13:30</Button>
+                        <Button isDisabled={usedDates[3] === true ? true : false} className={timePick === 4 ? "text-bila" : ""} onClick={() => setTimePick(4)} variant={timePick === 4 ? "bordered" : "solid"}>15:00</Button>
                     </ButtonGroup>
                 )}
                 {timePick && (

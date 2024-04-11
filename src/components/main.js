@@ -101,9 +101,9 @@ function Uvod({user}){
 
 function Onas(){
     return(
-        <section className="flex flex-col justify-center items-center w-3/4 m-auto">
+        <section className="flex flex-col justify-center items-center w-11/12 md:3/4 m-auto">
             <h2 className="text-5xl font-medium drop-shadow-2xl pt-12">O Nás</h2>
-            <p className="text-xl font-light p-8 text-center">Vítejte v rezervačním systému Kostnice v Sedlci! Jsme tým nadšených jednotlivců spojených 
+            <p className="text-xl font-light md:p-8 text-center">Vítejte v rezervačním systému Kostnice v Sedlci! Jsme tým nadšených jednotlivců spojených 
                 láskou k historii. Naším cílem je vám usnadnit návštěvu této unikátní lokality. S námi můžete snadno zarezervovat 
                 svou návštěvu, abyste si plně užili atmosféru Kostnice v Sedlci. Těšíme se na vaši návštěvu!</p>
         </section>
@@ -112,7 +112,7 @@ function Onas(){
 
 function Info(){
     return(
-        <section className="flex md:flex-row flex-col gap-9 p-16 justify-center items-center w-3/4 m-auto text-xl text-center">
+        <section className="flex md:flex-row flex-col gap-9 p-16 justify-center items-center w-11/12 md:3/4 m-auto text-xl text-center">
             <div>
                 <p>Otevřeno:</p>
                 <p className="font-light">9:00 - 16:00</p>
@@ -131,10 +131,10 @@ function Info(){
 
 function Pruvodci(){
     return(
-        <section className="flex flex-col gap-9 p-16 justify-center items-center w-3/4 m-auto text-xl text-center">
+        <section className="flex flex-col gap-9 md:p-16 justify-center items-center w-11/12 md:3/4 m-auto text-xl text-center">
             <h2 className="font-medium text-5xl">Kdo vás bude provádět?</h2>
             <div className="flex flex-col items-center md:flex-row gap-5">
-                <div className="md:w-[540px] w-2/3">
+                <div className="md:w-1/2 w-full">
                     <img src="img/honza.png" alt="Honza" />
                     <h4 className="text-2xl m-2">Honza</h4>
                     <p className="font-light text-lg">Honza, náš tajemný průvodce v kostnici, je vysoký 
@@ -143,12 +143,12 @@ function Pruvodci(){
                     dává kostnici nový rozměr – místo, kde minulost ožívá ve stínu 
                     mrtvých.</p>
                 </div>
-                <div className="md:w-[540px] w-2/3">
+                <div className="md:w-1/2] w-full">
                     <img src="img/bigboss.png" alt="BigBoss" />
                     <h4 className="text-2xl m-2">Big Boss</h4>
                     <p className="font-light text-lg">Radka, naše odvážná průvodkyně kostnicí, vystupuje s jasným úsměvem uprostřed morbidní atmosféry. S krátkými vlasy a pestrobarevným šátkem kolem krku, působí jako světýlko ve tmě. S každým krokem odhaluje příběhy minulosti s nakažlivým nadšením.</p>
                 </div>
-                <div className="md:w-[540px] w-2/3">
+                <div className="md:w-1/2 w-full">
                     <img src="img/nikca.png" alt="Nikca"/>
                     <h4 className="text-2xl m-2">Nikča</h4>
                     <p className="font-light text-lg">Nikča, naše tajemná průvodkyně v kostnici, je postava zahalena do temných šatů a s krátkými, vlnitými vlasy, které jí padají do tváře. S podmanivým pohledem, který proniká do nejtemnějších koutů, odhaluje tajemství minulosti.</p>
@@ -160,7 +160,7 @@ function Pruvodci(){
 
 function Kontakt(){
     return(
-        <section className="flex flex-col justify-center w-3/4 md:w-full items-center text-center">
+        <section className="flex flex-col justify-center w-11/12 md:3/4 md:w-full items-center text-center">
             <h2 className="font-medium text-5xl m-4">Kontakt</h2>
             <div className="font-light text-xl flex flex-col md:flex-row gap-5 justify-center m-4">
                 <p className="flex items-center gap-2"><img src="img/phone.png"/>+420 327 561 147</p>

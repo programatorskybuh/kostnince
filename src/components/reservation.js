@@ -33,7 +33,7 @@ export default function Reservation(){
     let dates = GenerateDates();
     return(
         <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.png")'}}>
-            <div className="flex flex-col justify-start items-center bg-fialova opacity-80 min-w-96 min-h-80 rounded-3xl">
+            <div className="flex flex-col justify-start items-center bg-fialova opacity-80 md:min-w-96 md:w-auto w-full min-h-80 rounded-3xl">
                 {user.id !== "" ? 
                 <>
                     <SUctem dates={dates} reservations={reservations} userInfo={user} />
@@ -115,7 +115,7 @@ function SUctem({dates, reservations, userInfo}){
     }
 
     return(
-        <div className="m-16 h-full flex flex-col justify-evenly items-center gap-5">
+        <div className="m-16 h-full w-11/12 md:w-full flex flex-col justify-evenly items-center gap-5">
             <h4 className="text-bila">Zarezervujte si prohlídku</h4>
             {step === 0 ? 
             <>
@@ -136,7 +136,7 @@ function SUctem({dates, reservations, userInfo}){
                 )}
                 {timePick && (
                     <>
-                        <div className="flex w-full gap-4">
+                        <div className="flex w-11/12 md:w-full gap-4">
                         <Select label="Dospělý" selectedKeys={[peopleAdult]} onChange={(e) => setPeopleAdult(e.target.value)}>
                             <SelectItem key={"0"} value={"0"}>0</SelectItem>
                             <SelectItem key={"1"} value={"1"}>1</SelectItem>
@@ -232,7 +232,7 @@ function BezUctu({dates, reservations}){
     }
 
     return(
-        <div className="m-16 h-full flex flex-col justify-evenly items-center gap-5">
+        <div className="m-16 h-full w-11/12 md:w-auto flex flex-col justify-evenly items-center gap-5">
             <h4 className="text-bila">Zarezervujte si prohlídku</h4>
             {step === 0 ? 
             <>

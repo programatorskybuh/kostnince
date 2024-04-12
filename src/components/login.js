@@ -102,6 +102,14 @@ function Register({setPage}){
           else if(response.data === "New record created successfully"){
             toast.success("Účet úspěšně vytvořen.");
             setPage(0); 
+
+            try {
+              const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/mail/account.php', {email: formData.email});
+              console.log(response.data); // Success message from the server
+            } catch (error) {
+              console.error('Error:', error); // Handle error
+            }
+
           }
         } catch (error) {
           console.error('Error:', error); // Handle error

@@ -109,6 +109,14 @@ function SUctem({dates, reservations, userInfo}){
             }
             const response = await axios.post("http://jelinek.soskolin.eu/maturita/php/createReservation.php", data)
             console.log(response.data);
+            if(response.data === "New reservation created successfully"){
+                try {
+                    const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/mail/reservation.php', {email: personalInfo.email, date: selectedDate});
+                    console.log(response.data); // Success message from the server
+                } catch (error) {
+                    console.error('Error:', error); // Handle error
+                }
+            }
         }
         else toast.warning("Vyplňte všechny podstatné informace ve správném tvaru.")
 
@@ -226,6 +234,14 @@ function BezUctu({dates, reservations}){
             }
             const response = await axios.post("http://jelinek.soskolin.eu/maturita/php/createReservation.php", data)
             console.log(response.data);
+            if(response.data === "New reservation created successfully"){
+                try {
+                    const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/mail/reservation.php', {email: personalInfo.email, date: selectedDate});
+                    console.log(response.data); // Success message from the server
+                } catch (error) {
+                    console.error('Error:', error); // Handle error
+                }
+            }
         }
         else toast.warning("Vyplňte všechny podstatné informace ve správném tvaru.")
 

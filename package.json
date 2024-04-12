@@ -1,7 +1,7 @@
 {
   "name": "kostnince",
   "version": "0.1.0",
-  "homepage": ".",
+  "homepage": "/maturita",
   "private": true,
   "dependencies": {
     "@nextui-org/react": "^2.2.10",

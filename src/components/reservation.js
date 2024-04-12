@@ -32,7 +32,7 @@ export default function Reservation(){
 
     let dates = GenerateDates();
     return(
-        <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.webp")'}}>
+        <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("img/pozadi.webp")'}}>
             <div className="flex flex-col justify-start items-center bg-fialova opacity-80 md:min-w-96 md:w-auto w-full min-h-80 rounded-3xl">
                 {user.id !== "" ? 
                 <>

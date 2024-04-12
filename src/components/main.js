@@ -104,13 +104,13 @@ function Uvod({user}){
     }
 
     return(
-        <section className="h-screen flex w-full flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.webp")'}}>
+        <section className="h-screen flex w-full flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("img/pozadi.webp")'}}>
             <nav className="font-extralight flex items-center justify-between w-11/12 mb-auto">
                 <a href="#" className="md:text-4xl text-lg m-3">Kostnice v Sedlci</a>
                 <div className="text-xl flex gap-28 justify-center items-center">
                     <div className="md:flex gap-2 hidden">
-                        <a className="m-3" href="#">O nás</a>
-                        <a className="m-3" href="#">Kontakt</a>
+                        <a className="m-3" href="#onas">O nás</a>
+                        <a className="m-3" href="#kontakt">Kontakt</a>
                     </div>
                     {user.id !== "" ? 
                     <>
@@ -149,7 +149,7 @@ function Uvod({user}){
 
 function Onas(){
     return(
-        <section className="flex flex-col justify-center items-center w-11/12 md:3/4 m-auto">
+        <section id="onas" className="flex flex-col justify-center items-center w-11/12 md:3/4 m-auto">
             <h2 className="text-5xl font-medium drop-shadow-2xl pt-12">O Nás</h2>
             <p className="text-xl font-light md:p-8 text-center">Vítejte v rezervačním systému Kostnice v Sedlci! Jsme tým nadšených jednotlivců spojených 
                 láskou k historii. Naším cílem je vám usnadnit návštěvu této unikátní lokality. S námi můžete snadno zarezervovat 
@@ -208,14 +208,14 @@ function Pruvodci(){
 
 function Kontakt(){
     return(
-        <section className="flex flex-col justify-center w-11/12 md:3/4 md:w-full items-center text-center">
+        <section id="kontakt" className="flex flex-col justify-center w-11/12 md:3/4 md:w-full items-center text-center">
             <h2 className="font-medium text-5xl m-4">Kontakt</h2>
             <div className="font-light text-xl flex flex-col md:flex-row gap-5 justify-center m-4">
-                <p className="flex items-center gap-2"><img src="img/phone.webp"/>+420 327 561 147</p>
-                <p className="flex items-center gap-2"><img src="img/email.webp"/>info@sedlec.info</p>
-                <p className="flex items-center gap-2"><img src="img/mapa.webp"/>Zámecká 279, Kutná Hora</p>
+                <p className="flex items-center gap-2"><img alt="phone" src="img/phone.webp"/>+420 327 561 147</p>
+                <p className="flex items-center gap-2"><img alt="mail" src="img/email.webp"/>info@sedlec.info</p>
+                <p className="flex items-center gap-2"><img alt="mapa" src="img/mapa.webp"/>Zámecká 279, Kutná Hora</p>
             </div>
-            <iframe className="w-10/12 md:w-full" height="450" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2566.723390010863!2d15.286433576914842!3d49.960291122534684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470c40fc635ac54f%3A0x320cc9caa5f1508e!2sKostnice%20Sedlec!5e0!3m2!1scs!2scz!4v1709640910708!5m2!1scs!2scz" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+            <iframe className="w-10/12 md:w-full" title="Google mapa" height="450" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2566.723390010863!2d15.286433576914842!3d49.960291122534684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470c40fc635ac54f%3A0x320cc9caa5f1508e!2sKostnice%20Sedlec!5e0!3m2!1scs!2scz!4v1709640910708!5m2!1scs!2scz" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
         </section>
     );
 }

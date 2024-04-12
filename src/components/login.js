@@ -8,7 +8,7 @@ import axios from "axios";
 export default function Auth(){
     const [page, setPage] = useState(0);
     return(
-        <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.webp")'}}>
+        <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("img/pozadi.webp")'}}>
             <div className="flex flex-col justify-start items-center bg-fialova opacity-80 min-w-60 min-h-80 rounded-3xl">
                 {page === 0 ? <Login setPage={setPage} /> : ""}
                 {page === 1 ? <Register setPage={setPage} /> : ""}
@@ -36,7 +36,7 @@ function Login({setPage}){
     }
 
     try {
-      const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/login.php', formData);
+      const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/login.php', formData);
       console.log(response.data); // Success message from the server 
 
       if(response.data.error === "Email not found"){
@@ -48,7 +48,7 @@ function Login({setPage}){
       else if(response.data.success === "Login successful"){
         toast.success("Přihlášení proběhlo v pořádku.");
         localStorage.setItem("id", response.data.ID_user);       
-        window.location = "/";
+        window.location = "/maturita";
       }
       
     } catch (error) {
@@ -94,7 +94,7 @@ function Register({setPage}){
         }
 
         try {
-          const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/createUser.php', formData);
+          const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/createUser.php', formData);
           console.log(response.data); // Success message from the server
           if(response.data === "Email already exists"){
             toast.warning("Účet s tímto emailem již exituje.");
@@ -104,7 +104,7 @@ function Register({setPage}){
             setPage(0); 
 
             try {
-              const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/mail/account.php', {email: formData.email});
+              const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/mail/account.php', {email: formData.email});
               console.log(response.data); // Success message from the server
             } catch (error) {
               console.error('Error:', error); // Handle error

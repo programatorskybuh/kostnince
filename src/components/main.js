@@ -29,7 +29,7 @@ export default function Main(){
 
     const fetchData = async (id) => {
         try{
-            const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/getData.php', {ID_user: id});
+            const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/getData.php', {ID_user: id});
             //console.log(response.data, user);
             setUser({...user, name: response.data.name, id: localStorage.getItem("id"), email: response.data.email, reservations: response.data.reservations})
         }  
@@ -211,11 +211,11 @@ function Kontakt(){
         <section id="kontakt" className="flex flex-col justify-center w-11/12 md:3/4 md:w-full items-center text-center">
             <h2 className="font-medium text-5xl m-4">Kontakt</h2>
             <div className="font-light text-xl flex flex-col md:flex-row gap-5 justify-center m-4">
-                <p className="flex items-center gap-2"><img alt="phone" src="img/phone.webp"/>+420 327 561 147</p>
-                <p className="flex items-center gap-2"><img alt="mail" src="img/email.webp"/>info@sedlec.info</p>
-                <p className="flex items-center gap-2"><img alt="mapa" src="img/mapa.webp"/>Zámecká 279, Kutná Hora</p>
+                <p className="flex items-center gap-2"><img src="img/phone.webp"/>+420 327 561 147</p>
+                <p className="flex items-center gap-2"><img src="img/email.webp"/>info@sedlec.info</p>
+                <p className="flex items-center gap-2"><img src="img/mapa.webp"/>Zámecká 279, Kutná Hora</p>
             </div>
-            <iframe className="w-10/12 md:w-full" title="Google mapa" height="450" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2566.723390010863!2d15.286433576914842!3d49.960291122534684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470c40fc635ac54f%3A0x320cc9caa5f1508e!2sKostnice%20Sedlec!5e0!3m2!1scs!2scz!4v1709640910708!5m2!1scs!2scz" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+            <iframe className="w-10/12 md:w-full" height="450" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2566.723390010863!2d15.286433576914842!3d49.960291122534684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470c40fc635ac54f%3A0x320cc9caa5f1508e!2sKostnice%20Sedlec!5e0!3m2!1scs!2scz!4v1709640910708!5m2!1scs!2scz" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
         </section>
     );
 }

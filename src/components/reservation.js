@@ -23,7 +23,7 @@ export default function Reservation(){
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://jelinek.soskolin.eu/maturita/php/getReservations.php');
+            const response = await axios.get('https://jelinek.soskolin.eu/maturita/php/getReservations.php');
             setReservations(response.data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -71,7 +71,7 @@ function SUctem({dates, reservations, userInfo}){
         false
     ]);
 
-    console.log(personalInfo)
+    //console.log(personalInfo)
     useEffect(() =>{
         try{
             //console.log(reservations.filter(item => item.date === selectedDate));
@@ -107,11 +107,11 @@ function SUctem({dates, reservations, userInfo}){
                 email: personalInfo.email,
                 ID_user: personalInfo.id
             }
-            const response = await axios.post("http://jelinek.soskolin.eu/maturita/php/createReservation.php", data)
+            const response = await axios.post("https://jelinek.soskolin.eu/maturita/php/createReservation.php", data)
             console.log(response.data);
             if(response.data === "New reservation created successfully"){
                 try {
-                    const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/mail/reservation.php', {email: personalInfo.email, date: selectedDate});
+                    const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/mail/reservation.php', {email: personalInfo.email, date: selectedDate});
                     console.log(response.data); // Success message from the server
                 } catch (error) {
                     console.error('Error:', error); // Handle error
@@ -232,11 +232,11 @@ function BezUctu({dates, reservations}){
                 email: personalInfo.email,
                 ID_user: null
             }
-            const response = await axios.post("http://jelinek.soskolin.eu/maturita/php/createReservation.php", data)
+            const response = await axios.post("https://jelinek.soskolin.eu/maturita/php/createReservation.php", data)
             console.log(response.data);
             if(response.data === "New reservation created successfully"){
                 try {
-                    const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/mail/reservation.php', {email: personalInfo.email, date: selectedDate});
+                    const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/mail/reservation.php', {email: personalInfo.email, date: selectedDate});
                     console.log(response.data); // Success message from the server
                 } catch (error) {
                     console.error('Error:', error); // Handle error

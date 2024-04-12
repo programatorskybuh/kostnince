@@ -8,7 +8,7 @@ import axios from "axios";
 export default function Auth(){
     const [page, setPage] = useState(0);
     return(
-        <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.png")'}}>
+        <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.webp")'}}>
             <div className="flex flex-col justify-start items-center bg-fialova opacity-80 min-w-60 min-h-80 rounded-3xl">
                 {page === 0 ? <Login setPage={setPage} /> : ""}
                 {page === 1 ? <Register setPage={setPage} /> : ""}
@@ -58,7 +58,7 @@ function Login({setPage}){
 
   return(
     <div className="m-16 flex flex-col justify-center items-center gap-5">
-        <img src="img/profile.png" alt="Profile pic" />
+        <img src="img/profile.webp" alt="Profile pic" />
         <Input type="email" label="Email" name="email" onChange={handleChange} value={formData.email} />
         <Input type="password" label="Heslo" name="password" onChange={handleChange} value={formData.password} />
         <Button className="bg-bila text-fialova" onClick={handleSubmit}>Přihlásit se</Button>
@@ -114,7 +114,7 @@ function Register({setPage}){
 
     return(
         <div className="m-16 flex flex-col justify-center items-center gap-5">
-            <img src="img/profile.png" alt="Profile pic" />
+            <img src="img/profile.webp" alt="Profile pic" />
             <div className="flex gap-5">
                 <Input type="text" name="name" label="Jméno" value={formData.name} onChange={handleChange} />
                 <Input type="text" name="surname" label="Příjmení" value={formData.surname} onChange={handleChange} />

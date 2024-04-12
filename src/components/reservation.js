@@ -32,7 +32,7 @@ export default function Reservation(){
 
     let dates = GenerateDates();
     return(
-        <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.png")'}}>
+        <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.webp")'}}>
             <div className="flex flex-col justify-start items-center bg-fialova opacity-80 md:min-w-96 md:w-auto w-full min-h-80 rounded-3xl">
                 {user.id !== "" ? 
                 <>
@@ -280,7 +280,7 @@ function BezUctu({dates, reservations}){
                 <div className="flex justify-center items-center gap-2">
                     <p>Váš zarezervovaný termín: {selectedDate}</p>
                     
-                    <img onClick={() => setStep(0)} className="cursor-pointer" src="img/pencil.png" alt="Upravit" />
+                    <img onClick={() => setStep(0)} className="cursor-pointer" src="img/pencil.webp" alt="Upravit" />
                 </div>
                 <div className="flex gap-5">
                     <Input type="text" name="name" label="Jméno" value={personalInfo.name} onChange={handleChange} />

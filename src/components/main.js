@@ -19,7 +19,7 @@ export default function Main(){
     }, [])
 
     useEffect(() =>{
-        console.log(user);
+        //console.log(user);
         if(user.id === "") return;
 
         localStorage.setItem("id", user.id);
@@ -30,7 +30,7 @@ export default function Main(){
     const fetchData = async (id) => {
         try{
             const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/getData.php', {ID_user: id});
-            console.log(response.data, user);
+            //console.log(response.data, user);
             setUser({...user, name: response.data.name, id: localStorage.getItem("id"), email: response.data.email, reservations: response.data.reservations})
         }  
         catch{
@@ -54,14 +54,44 @@ export default function Main(){
 function Cookies(){
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     useEffect(() =>{
+        if(localStorage.getItem("cookies")) return;
         onOpen();
     }, [])
+
+    function handleClose(){
+        localStorage.setItem("cookies", true);
+    }
+
     return(
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} defaultOpen>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} defaultOpen size="3xl" backdrop="blur">
             <ModalContent>
-                <ModalHeader>
-                    <h3>Ahoj</h3>
-                </ModalHeader>
+               {(onClose) => (
+               <>
+                    <ModalHeader>
+                        <div className="flex justify-center w-full">
+                            <p className="text-2xl">Používáme sušenky</p>
+                        </div>
+                    </ModalHeader>
+                    <ModalBody>
+                        <div className="flex">
+                            <img className="w-1/2 hidden md:block" src="img/cookie.png" alt="Sušenka" />
+                            <div className="m-10 flex flex-col gap-3">
+                                <p>Tento web využívá soubory cookies.</p>
+                                <p>Používáme je, abychom mohli zlepšit Váš zážitek. Používáním našich stránek souhlasíte s našimi zásadami používání souborů cookies.</p>
+                                <p>Pro více informací prosím kontaktujte naší telefonickou podporu.</p>
+                                <p><strong>+420 777 288 492</strong></p>
+                            </div>
+                        </div>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="danger" variant="light" onPress={onClose} onClick={handleClose}>
+                        Pouze nezbytné
+                        </Button>
+                        <Button color="primary" onPress={onClose} onClick={handleClose}>
+                        Přijmout vše
+                        </Button>
+                    </ModalFooter>
+               </>)}
             </ModalContent>
         </Modal>    
     );
@@ -69,7 +99,7 @@ function Cookies(){
 
 function Uvod({user}){
     function Logout(){
-        localStorage.clear();
+        localStorage.removeItem("id");
         window.location.reload();
     }
 

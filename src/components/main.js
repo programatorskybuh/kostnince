@@ -11,6 +11,7 @@ export default function Main(){
 
     });
 
+    //zjištění, zda je účet při
     useEffect(() =>{
         if(localStorage.getItem("id")){
 
@@ -27,6 +28,7 @@ export default function Main(){
         localStorage.setItem("email", user.email);
     }, [user])
 
+    //stažení dat z databáze
     const fetchData = async (id) => {
         try{
             const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/getData.php', {ID_user: id});
@@ -58,10 +60,11 @@ function Cookies(){
         onOpen();
     }, [])
 
+    //uložení cookies volby z do localstorage
     function handleClose(){
         localStorage.setItem("cookies", true);
     }
-
+    //cookies tabulka
     return(
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} defaultOpen size="3xl" backdrop="blur">
             <ModalContent>
@@ -98,11 +101,12 @@ function Cookies(){
 }
 
 function Uvod({user}){
+    //smazani dat z localstorage = uživatel se musí znovu přihlásit
     function Logout(){
         localStorage.removeItem("id");
         window.location.reload();
     }
-
+    
     return(
         <section className="h-screen flex w-full flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("img/pozadi.webp")'}}>
             <nav className="font-extralight flex items-center justify-between w-11/12 mb-auto">

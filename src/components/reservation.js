@@ -14,6 +14,7 @@ export default function Reservation(){
 
     const [reservations, setReservations] = useState({});
 
+    //zjištění dat o přihlášeném uživateli
     useEffect(() =>{
         if(localStorage.getItem("id")){
             setUser({...user, id: localStorage.getItem("id"), name: localStorage.getItem("name"), email: localStorage.getItem("email")})
@@ -21,6 +22,7 @@ export default function Reservation(){
         fetchData();
     }, [])
 
+    //stažení dat
     const fetchData = async () => {
         try {
             const response = await axios.get('https://jelinek.soskolin.eu/maturita/php/getReservations.php');
@@ -45,6 +47,7 @@ export default function Reservation(){
         </section>
     );
 
+    //příprava datumů, zítřejší datum + 10 dní
     function GenerateDates(){
         let dates = [];
         let today = new Date();
@@ -92,12 +95,13 @@ function SUctem({dates, reservations, userInfo}){
         }
     }, [selectedDate])
 
-
+    //ověření, zda je email ve správném tvaru
     const isValidEmail = (email) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
     };
 
+    //odeslání dat do databáze + odeslání mailu s potvrzením
     async function handleSend(){
         if(isValidEmail(personalInfo.email) === true){
             setStep(1);
@@ -214,15 +218,18 @@ function BezUctu({dates, reservations}){
         }
     }, [selectedDate])
 
+    //ukládání do useState, při psaní do inputu
     const handleChange = (e) => {
         setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
     };
 
+    //kontrola mailu, zda je ve správném tvaru
     const isValidEmail = (email) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
     };
 
+    //odeslání dat + mail
     async function handleSend(){
         if(isValidEmail(personalInfo.email) === true){
             setStep(2);

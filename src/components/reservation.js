@@ -120,6 +120,9 @@ function SUctem({dates, reservations, userInfo}){
         }
         else toast.warning("Vyplňte všechny podstatné informace ve správném tvaru.")
 
+        setTimeout(() => {
+            window.location = "/maturita";
+        }, 2000)
     }
 
     return(
@@ -245,6 +248,9 @@ function BezUctu({dates, reservations}){
         }
         else toast.warning("Vyplňte všechny podstatné informace ve správném tvaru.")
 
+        setTimeout(() => {
+            window.location = "/maturita";
+        }, 2000)
     }
 
     return(

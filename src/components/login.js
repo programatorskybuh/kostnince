@@ -3,8 +3,6 @@ import { Button, Checkbox, Input, Link } from "@nextui-org/react";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-//radek 48 pred nahranim
-
 export default function Auth(){
     const [page, setPage] = useState(0);
     return(
@@ -23,10 +21,12 @@ function Login({setPage}){
     password: ''
   });
 
+  //získání dat z inputu a uložení do usestate
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  //odeslání do databáze
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -75,6 +75,7 @@ function Register({setPage}){
         surname: ''
       });
 
+      //kontrola, zda je email ve správném tvaru
       const isValidEmail = (email) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);

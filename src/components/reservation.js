@@ -113,6 +113,9 @@ function SUctem({dates, reservations, userInfo}){
             }
             const response = await axios.post("https://jelinek.soskolin.eu/maturita/php/createReservation.php", data)
             console.log(response.data);
+            if(response.data === "Maximum number of reservations reached for this email"){
+                toast.warning("Překročili jste limit rezervací(3).")
+            }
             if(response.data === "New reservation created successfully"){
                 try {
                     const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/mail/reservation.php', {email: personalInfo.email, date: selectedDate});

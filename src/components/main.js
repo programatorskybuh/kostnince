@@ -47,6 +47,7 @@ export default function Main(){
             <Onas />
             <Info />
             <Pruvodci />
+            <Video />
             <Kontakt />
             <Footer />
         </section>
@@ -206,6 +207,15 @@ function Pruvodci(){
                     <p className="font-light text-lg">Nikča, naše tajemná průvodkyně v kostnici, je postava zahalena do temných šatů a s krátkými, vlnitými vlasy, které jí padají do tváře. S podmanivým pohledem, který proniká do nejtemnějších koutů, odhaluje tajemství minulosti.</p>
                 </div>
             </div>
+        </section>
+    );
+}
+
+function Video(){
+    return(
+        <section className="flex flex-col gap-9 md:p-16 justify-center items-center w-11/12 md:3/4 m-auto text-xl text-center">
+            <h2 className="font-medium text-5xl m-4">Nevíte si rady s rezervací?</h2>
+            <video src="img/video.webm" controls className="w-8/12 drop-shadow-2xl" />
         </section>
     );
 }

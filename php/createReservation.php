@@ -18,6 +18,17 @@
     $time = $data['time'];
     $email = $data['email'];
 
+    // Check if there are already 3 reservations associated with the given email
+    $reservationCountQuery = "SELECT COUNT(*) AS count FROM reservations WHERE email = '$email'";
+    $result = $conn->query($reservationCountQuery);
+    $row = $result->fetch_assoc();
+    $reservationCount = $row['count'];
+
+    if ($reservationCount >= 3) {
+        echo "Maximum number of reservations reached for this email";
+        exit();
+    }
+
     // Prepare the placeholders for the optional ID_user field
     $idUserPlaceholder = isset($data['ID_user']) ? "'" . $data['ID_user'] . "'" : "NULL";
 

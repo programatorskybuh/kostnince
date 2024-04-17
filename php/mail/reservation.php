@@ -82,7 +82,8 @@
             <body>
                 <div class='container'>
                     <h1>Rezervační systém Kostnice</h1>
-                    <p>Vaše rezervace na den $date byla úspěšně vytvořena.\nBudeme se na vás těšit!</p>
+                    <p>Vaše rezervace na den <strong>$date</strong> byla úspěšně vytvořena.<br>Platit budete až na místě pomocí platební karty, či hotovosti. Dostavte se tedy prosím do Kostnice minimálně 10 minut předem. V opačném případě Vám může být rezervace stornována.</p>
+                    <p>Budeme se na vás těšit!</p>
                     <p>V případě technických, či jiných problémů neprodleně kontaktujte naší telefonickou podporu.</p>
                     <p>+420 777 288 492</p>
                 </div>

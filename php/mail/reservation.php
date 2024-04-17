@@ -40,7 +40,7 @@
 
         // Sender and recipient
         $mail->setFrom('kostnice.neodpovidejte@gmail.com', 'Rezervační systém kostnice'); // Sender's email and name
-        $mail->addAddress($data['email'], 'Recipient Name'); // Recipient's email and name
+        $mail->addAddress($data['email'], $data['email']); // Recipient's email and name
 
         // Email subject
         $mail->Subject = 'Registrace';

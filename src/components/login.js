@@ -3,12 +3,10 @@ import { Button, Checkbox, Input, Link } from "@nextui-org/react";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-//radek 48 pred nahranim
-
 export default function Auth(){
     const [page, setPage] = useState(0);
     return(
-        <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.png")'}}>
+        <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("img/pozadi.webp")'}}>
             <div className="flex flex-col justify-start items-center bg-fialova opacity-80 min-w-60 min-h-80 rounded-3xl">
                 {page === 0 ? <Login setPage={setPage} /> : ""}
                 {page === 1 ? <Register setPage={setPage} /> : ""}
@@ -23,10 +21,12 @@ function Login({setPage}){
     password: ''
   });
 
+  //získání dat z inputu a uložení do usestate
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  //odeslání do databáze
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -36,7 +36,7 @@ function Login({setPage}){
     }
 
     try {
-      const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/login.php', formData);
+      const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/login.php', formData);
       console.log(response.data); // Success message from the server 
 
       if(response.data.error === "Email not found"){
@@ -48,7 +48,7 @@ function Login({setPage}){
       else if(response.data.success === "Login successful"){
         toast.success("Přihlášení proběhlo v pořádku.");
         localStorage.setItem("id", response.data.ID_user);       
-        window.location = "/";
+        window.location = "/maturita";
       }
       
     } catch (error) {
@@ -58,7 +58,7 @@ function Login({setPage}){
 
   return(
     <div className="m-16 flex flex-col justify-center items-center gap-5">
-        <img src="img/profile.png" alt="Profile pic" />
+        <img src="img/profile.webp" alt="Profile pic" />
         <Input type="email" label="Email" name="email" onChange={handleChange} value={formData.email} />
         <Input type="password" label="Heslo" name="password" onChange={handleChange} value={formData.password} />
         <Button className="bg-bila text-fialova" onClick={handleSubmit}>Přihlásit se</Button>
@@ -75,6 +75,7 @@ function Register({setPage}){
         surname: ''
       });
 
+      //kontrola, zda je email ve správném tvaru
       const isValidEmail = (email) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
@@ -94,7 +95,7 @@ function Register({setPage}){
         }
 
         try {
-          const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/createUser.php', formData);
+          const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/createUser.php', formData);
           console.log(response.data); // Success message from the server
           if(response.data === "Email already exists"){
             toast.warning("Účet s tímto emailem již exituje.");
@@ -102,6 +103,14 @@ function Register({setPage}){
           else if(response.data === "New record created successfully"){
             toast.success("Účet úspěšně vytvořen.");
             setPage(0); 
+
+            try {
+              const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/mail/account.php', {email: formData.email});
+              console.log(response.data); // Success message from the server
+            } catch (error) {
+              console.error('Error:', error); // Handle error
+            }
+
           }
         } catch (error) {
           console.error('Error:', error); // Handle error
@@ -114,7 +123,7 @@ function Register({setPage}){
 
     return(
         <div className="m-16 flex flex-col justify-center items-center gap-5">
-            <img src="img/profile.png" alt="Profile pic" />
+            <img src="img/profile.webp" alt="Profile pic" />
             <div className="flex gap-5">
                 <Input type="text" name="name" label="Jméno" value={formData.name} onChange={handleChange} />
                 <Input type="text" name="surname" label="Příjmení" value={formData.surname} onChange={handleChange} />

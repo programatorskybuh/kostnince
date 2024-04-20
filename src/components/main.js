@@ -11,6 +11,7 @@ export default function Main(){
 
     });
 
+    //zjištění, zda je účet při
     useEffect(() =>{
         if(localStorage.getItem("id")){
 
@@ -19,7 +20,7 @@ export default function Main(){
     }, [])
 
     useEffect(() =>{
-        console.log(user);
+        //console.log(user);
         if(user.id === "") return;
 
         localStorage.setItem("id", user.id);
@@ -27,10 +28,11 @@ export default function Main(){
         localStorage.setItem("email", user.email);
     }, [user])
 
+    //stažení dat z databáze
     const fetchData = async (id) => {
         try{
-            const response = await axios.post('http://jelinek.soskolin.eu/maturita/php/getData.php', {ID_user: id});
-            console.log(response.data, user);
+            const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/getData.php', {ID_user: id});
+            //console.log(response.data, user);
             setUser({...user, name: response.data.name, id: localStorage.getItem("id"), email: response.data.email, reservations: response.data.reservations})
         }  
         catch{
@@ -45,6 +47,7 @@ export default function Main(){
             <Onas />
             <Info />
             <Pruvodci />
+            <Video />
             <Kontakt />
             <Footer />
         </section>
@@ -54,33 +57,65 @@ export default function Main(){
 function Cookies(){
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     useEffect(() =>{
+        if(localStorage.getItem("cookies")) return;
         onOpen();
     }, [])
+
+    //uložení cookies volby z do localstorage
+    function handleClose(){
+        localStorage.setItem("cookies", true);
+    }
+    //cookies tabulka
     return(
-        <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} defaultOpen>
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange} isDismissable={false} defaultOpen size="3xl" backdrop="blur">
             <ModalContent>
-                <ModalHeader>
-                    <h3>Ahoj</h3>
-                </ModalHeader>
+               {(onClose) => (
+               <>
+                    <ModalHeader>
+                        <div className="flex justify-center w-full">
+                            <p className="text-2xl">Používáme sušenky</p>
+                        </div>
+                    </ModalHeader>
+                    <ModalBody>
+                        <div className="flex">
+                            <img className="w-1/2 hidden md:block" src="img/cookie.webp" alt="Sušenka" />
+                            <div className="m-10 flex flex-col gap-3">
+                                <p>Tento web využívá soubory cookies.</p>
+                                <p>Používáme je, abychom mohli zlepšit Váš zážitek. Používáním našich stránek souhlasíte s našimi zásadami používání souborů cookies.</p>
+                                <p>Pro více informací prosím kontaktujte naší telefonickou podporu.</p>
+                                <p><strong>+420 777 288 492</strong></p>
+                            </div>
+                        </div>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="danger" variant="light" onPress={onClose} onClick={handleClose}>
+                        Pouze nezbytné
+                        </Button>
+                        <Button color="primary" onPress={onClose} onClick={handleClose}>
+                        Přijmout vše
+                        </Button>
+                    </ModalFooter>
+               </>)}
             </ModalContent>
         </Modal>    
     );
 }
 
 function Uvod({user}){
+    //smazani dat z localstorage = uživatel se musí znovu přihlásit
     function Logout(){
-        localStorage.clear();
+        localStorage.removeItem("id");
         window.location.reload();
     }
-
+    
     return(
-        <section className="h-screen flex w-full flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.png")'}}>
+        <section className="h-screen flex w-full flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("img/pozadi.webp")'}}>
             <nav className="font-extralight flex items-center justify-between w-11/12 mb-auto">
                 <a href="#" className="md:text-4xl text-lg m-3">Kostnice v Sedlci</a>
                 <div className="text-xl flex gap-28 justify-center items-center">
                     <div className="md:flex gap-2 hidden">
-                        <a className="m-3" href="#">O nás</a>
-                        <a className="m-3" href="#">Kontakt</a>
+                        <a className="m-3" href="#onas">O nás</a>
+                        <a className="m-3" href="#kontakt">Kontakt</a>
                     </div>
                     {user.id !== "" ? 
                     <>
@@ -119,7 +154,7 @@ function Uvod({user}){
 
 function Onas(){
     return(
-        <section className="flex flex-col justify-center items-center w-11/12 md:3/4 m-auto">
+        <section id="onas" className="flex flex-col justify-center items-center w-11/12 md:3/4 m-auto">
             <h2 className="text-5xl font-medium drop-shadow-2xl pt-12">O Nás</h2>
             <p className="text-xl font-light md:p-8 text-center">Vítejte v rezervačním systému Kostnice v Sedlci! Jsme tým nadšených jednotlivců spojených 
                 láskou k historii. Naším cílem je vám usnadnit návštěvu této unikátní lokality. S námi můžete snadno zarezervovat 
@@ -153,7 +188,7 @@ function Pruvodci(){
             <h2 className="font-medium text-5xl">Kdo vás bude provádět?</h2>
             <div className="flex flex-col items-center md:flex-row gap-5">
                 <div className="md:w-1/2 w-full">
-                    <img src="img/honza.png" alt="Honza" />
+                    <img src="img/honza.webp" alt="Honza" />
                     <h4 className="text-2xl m-2">Honza</h4>
                     <p className="font-light text-lg">Honza, náš tajemný průvodce v kostnici, je vysoký 
                     muž s hnědými vlasy a záhadným pohledem. Jeho 
@@ -162,12 +197,12 @@ function Pruvodci(){
                     mrtvých.</p>
                 </div>
                 <div className="md:w-1/2 w-full">
-                    <img src="img/bigboss.png" alt="BigBoss" />
+                    <img src="img/bigboss.webp" alt="BigBoss" />
                     <h4 className="text-2xl m-2">Big Boss</h4>
                     <p className="font-light text-lg">Radka, naše odvážná průvodkyně kostnicí, vystupuje s jasným úsměvem uprostřed morbidní atmosféry. S krátkými vlasy a pestrobarevným šátkem kolem krku, působí jako světýlko ve tmě. S každým krokem odhaluje příběhy minulosti s nakažlivým nadšením.</p>
                 </div>
                 <div className="md:w-1/2 w-full">
-                    <img src="img/nikca.png" alt="Nikca"/>
+                    <img src="img/nikca.webp" alt="Nikca"/>
                     <h4 className="text-2xl m-2">Nikča</h4>
                     <p className="font-light text-lg">Nikča, naše tajemná průvodkyně v kostnici, je postava zahalena do temných šatů a s krátkými, vlnitými vlasy, které jí padají do tváře. S podmanivým pohledem, který proniká do nejtemnějších koutů, odhaluje tajemství minulosti.</p>
                 </div>
@@ -176,14 +211,23 @@ function Pruvodci(){
     );
 }
 
+function Video(){
+    return(
+        <section className="flex flex-col gap-9 md:p-16 justify-center items-center w-11/12 md:3/4 m-auto text-xl text-center">
+            <h2 className="font-medium text-5xl m-4">Nevíte si rady s rezervací?</h2>
+            <video src="img/video.webm" controls className="w-8/12 drop-shadow-2xl" />
+        </section>
+    );
+}
+
 function Kontakt(){
     return(
-        <section className="flex flex-col justify-center w-11/12 md:3/4 md:w-full items-center text-center">
+        <section id="kontakt" className="flex flex-col justify-center w-11/12 md:3/4 md:w-full items-center text-center">
             <h2 className="font-medium text-5xl m-4">Kontakt</h2>
             <div className="font-light text-xl flex flex-col md:flex-row gap-5 justify-center m-4">
-                <p className="flex items-center gap-2"><img src="img/phone.png"/>+420 327 561 147</p>
-                <p className="flex items-center gap-2"><img src="img/email.png"/>info@sedlec.info</p>
-                <p className="flex items-center gap-2"><img src="img/mapa.png"/>Zámecká 279, Kutná Hora</p>
+                <p className="flex items-center gap-2"><img src="img/phone.webp"/>+420 327 561 147</p>
+                <p className="flex items-center gap-2"><img src="img/email.webp"/>info@sedlec.info</p>
+                <p className="flex items-center gap-2"><img src="img/mapa.webp"/>Zámecká 279, Kutná Hora</p>
             </div>
             <iframe className="w-10/12 md:w-full" height="450" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2566.723390010863!2d15.286433576914842!3d49.960291122534684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470c40fc635ac54f%3A0x320cc9caa5f1508e!2sKostnice%20Sedlec!5e0!3m2!1scs!2scz!4v1709640910708!5m2!1scs!2scz" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
         </section>
@@ -193,7 +237,7 @@ function Kontakt(){
 function Footer(){
     return(
         <section className="flex flex-col justify-center items-center text-center">
-            <img className="m-14 w-2/3 md:w-auto" src="img/logo.png" alt="log"/>
+            <img className="m-14 w-2/3 md:w-auto" src="img/logo.webp" alt="log"/>
             <p className="text-xl font-light">©2024</p>
         </section>
     );

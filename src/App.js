@@ -10,7 +10,7 @@ function App() {
   return (
       <NextUIProvider>
         <div className="font-poppins">
-          <Router basename="/">
+          <Router basename="/maturita">
             <Routes>
               <Route path="/" element={<Main />} />
               <Route path="/auth" element={<Auth />} />

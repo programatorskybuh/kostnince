@@ -14,6 +14,7 @@ export default function Reservation(){
 
     const [reservations, setReservations] = useState({});
 
+    //zjištění dat o přihlášeném uživateli
     useEffect(() =>{
         if(localStorage.getItem("id")){
             setUser({...user, id: localStorage.getItem("id"), name: localStorage.getItem("name"), email: localStorage.getItem("email")})
@@ -21,9 +22,10 @@ export default function Reservation(){
         fetchData();
     }, [])
 
+    //stažení dat
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://jelinek.soskolin.eu/maturita/php/getReservations.php');
+            const response = await axios.get('https://jelinek.soskolin.eu/maturita/php/getReservations.php');
             setReservations(response.data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -32,7 +34,7 @@ export default function Reservation(){
 
     let dates = GenerateDates();
     return(
-        <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("/img/pozadi.png")'}}>
+        <section className="h-screen flex flex-col justify-center items-center text-bila text-center" style={{backgroundImage: 'url("img/pozadi.webp")'}}>
             <div className="flex flex-col justify-start items-center bg-fialova opacity-80 md:min-w-96 md:w-auto w-full min-h-80 rounded-3xl">
                 {user.id !== "" ? 
                 <>
@@ -45,6 +47,7 @@ export default function Reservation(){
         </section>
     );
 
+    //příprava datumů, zítřejší datum + 10 dní
     function GenerateDates(){
         let dates = [];
         let today = new Date();
@@ -71,7 +74,7 @@ function SUctem({dates, reservations, userInfo}){
         false
     ]);
 
-    console.log(personalInfo)
+    //console.log(personalInfo)
     useEffect(() =>{
         try{
             //console.log(reservations.filter(item => item.date === selectedDate));
@@ -92,26 +95,43 @@ function SUctem({dates, reservations, userInfo}){
         }
     }, [selectedDate])
 
-
+    //ověření, zda je email ve správném tvaru
     const isValidEmail = (email) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
     };
 
+    //odeslání dat do databáze + odeslání mailu s potvrzením
     async function handleSend(){
         if(isValidEmail(personalInfo.email) === true){
-            setStep(1);
+            
             let data = {
                 date: selectedDate,
                 time: timePick,
                 email: personalInfo.email,
                 ID_user: personalInfo.id
             }
-            const response = await axios.post("http://jelinek.soskolin.eu/maturita/php/createReservation.php", data)
+            const response = await axios.post("https://jelinek.soskolin.eu/maturita/php/createReservation.php", data)
             console.log(response.data);
+            if(response.data === "Maximum number of reservations reached for this email"){
+                toast.warning("Překročili jste limit rezervací(3).");
+                return;
+            }
+            setStep(1);
+            if(response.data === "New reservation created successfully"){
+                try {
+                    const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/mail/reservation.php', {email: personalInfo.email, date: selectedDate});
+                    console.log(response.data); // Success message from the server
+                } catch (error) {
+                    console.error('Error:', error); // Handle error
+                }
+            }
         }
         else toast.warning("Vyplňte všechny podstatné informace ve správném tvaru.")
 
+        setTimeout(() => {
+            window.location = "/maturita";
+        }, 2000)
     }
 
     return(
@@ -206,15 +226,18 @@ function BezUctu({dates, reservations}){
         }
     }, [selectedDate])
 
+    //ukládání do useState, při psaní do inputu
     const handleChange = (e) => {
         setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
     };
 
+    //kontrola mailu, zda je ve správném tvaru
     const isValidEmail = (email) => {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
     };
 
+    //odeslání dat + mail
     async function handleSend(){
         if(isValidEmail(personalInfo.email) === true){
             setStep(2);
@@ -224,11 +247,22 @@ function BezUctu({dates, reservations}){
                 email: personalInfo.email,
                 ID_user: null
             }
-            const response = await axios.post("http://jelinek.soskolin.eu/maturita/php/createReservation.php", data)
+            const response = await axios.post("https://jelinek.soskolin.eu/maturita/php/createReservation.php", data)
             console.log(response.data);
+            if(response.data === "New reservation created successfully"){
+                try {
+                    const response = await axios.post('https://jelinek.soskolin.eu/maturita/php/mail/reservation.php', {email: personalInfo.email, date: selectedDate});
+                    console.log(response.data); // Success message from the server
+                } catch (error) {
+                    console.error('Error:', error); // Handle error
+                }
+            }
         }
         else toast.warning("Vyplňte všechny podstatné informace ve správném tvaru.")
 
+        setTimeout(() => {
+            window.location = "/maturita";
+        }, 2000)
     }
 
     return(
@@ -280,7 +314,7 @@ function BezUctu({dates, reservations}){
                 <div className="flex justify-center items-center gap-2">
                     <p>Váš zarezervovaný termín: {selectedDate}</p>
                     
-                    <img onClick={() => setStep(0)} className="cursor-pointer" src="img/pencil.png" alt="Upravit" />
+                    <img onClick={() => setStep(0)} className="cursor-pointer" src="img/pencil.webp" alt="Upravit" />
                 </div>
                 <div className="flex gap-5">
                     <Input type="text" name="name" label="Jméno" value={personalInfo.name} onChange={handleChange} />
